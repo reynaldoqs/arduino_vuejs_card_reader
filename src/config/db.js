@@ -1,5 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/database'
+
+//importar tu configuracion de firebase aqui
 import {dbConfig} from './private'
 
 const firebaseApp = firebase
