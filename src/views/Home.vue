@@ -33,7 +33,8 @@
 
 <script>
 // @ is an alias to /src
-import {db} from '@/config/db';
+//import {db} from '@/db';
+import {usersDB} from '@/firebaseDB' 
       
 export default {
   name: 'home',
@@ -43,7 +44,7 @@ export default {
     }
   },
   firebase: {
-    users: db.ref('users').orderByChild('fechaUltimaRecarga'),
+    users: usersDB.orderByChild('fechaUltimaRecarga'),
   },
   mounted() {
      this.$firebaseRefs.users.on('child_changed', (childSnapshot) =>{

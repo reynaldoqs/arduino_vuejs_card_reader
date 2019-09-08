@@ -64,7 +64,7 @@
   </div>
 </template>
 <script>
-import {db,firebaseBase} from '@/config/db';
+import {db,firebaseBase} from '@/db';
 export default {
   name: 'recargas',
   data(){

@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
-import '@/assets/css/tailwind.css'
+import { store } from './store'
 import { rtdbPlugin } from 'vuefire'
+import './plugins'
+
 Vue.prototype.changedUser = null
 Vue.config.productionTip = false
 Vue.use(rtdbPlugin)

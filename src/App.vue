@@ -1,14 +1,32 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Monitoreo</router-link> |
-      <router-link to="/recargas">Recargas</router-link> | 
-      <router-link to="/registro">Registro</router-link>
-    </div>
+    <nav-bar></nav-bar>
     <router-view/>
+     <loading
+     :show="loading"
+     :overlay="true"
+     label="Cargando...">
+    </loading>
   </div>
 </template>
-
+<script>
+import { firebaseChanges } from '@/mixins/initFirebaseApp'
+import { transactionsChanges } from '@/mixins/transactionsInit'
+import NavBar from '@/components/NavBar'
+import loading from 'vue-full-loading'
+export default {
+  mixins:[firebaseChanges, transactionsChanges],
+  components:{
+    NavBar,
+    loading
+  },
+  computed:{
+    loading(){
+      return this.$store.getters.loading
+    }
+  }
+}
+</script>
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -16,17 +34,11 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 100vh;
+  --view-height:calc(100vh - 64px);
+  font-family: 'Roboto', sans-serif;
 }
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #4fd1c5;
+.router-view-height{
+  height: var(--view-height);
 }
 </style>
