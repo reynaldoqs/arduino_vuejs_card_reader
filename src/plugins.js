@@ -13,11 +13,14 @@ import Vue from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faExclamation, faTimes} from '@fortawesome/free-solid-svg-icons'
+import { faExclamation, faTimes, faImage, faUpload} from '@fortawesome/free-solid-svg-icons'
 import { faGoogle,faFacebookF} from '@fortawesome/free-brands-svg-icons'
 
 library.add(faExclamation)
 library.add(faTimes)
+library.add(faImage)
+library.add(faUpload)
+
 library.add(faGoogle)
 library.add(faFacebookF)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -28,3 +31,6 @@ Vue.use(VModal)
 //vuejs notifications
 import Notifications from 'vue-notification'
 Vue.use(Notifications)
+
+//vue-search-select
+import 'vue-search-select/dist/VueSearchSelect.css'

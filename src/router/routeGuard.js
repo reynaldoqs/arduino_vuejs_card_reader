@@ -1,9 +1,12 @@
-import {store} from '../store'
 
 export default (to, from, next) =>  {
-    if(store.getters.user){
-        next()
-    } else {
-        next('/signin')
+
+    const publicPages = ['/login']
+    const authRequired = !publicPages.includes(to.path)
+    const loggedIn = sessionStorage.getItem('user')
+    if(authRequired && !loggedIn){
+        next('/login')
     }
+    next()
+   
 }

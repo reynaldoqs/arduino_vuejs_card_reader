@@ -1,16 +1,18 @@
 <template>
     <div class="w-full bg-gray-900">
-       <div class="border-b border-gray-700 px-2 py-1 hover:bg-gray-800 cursor-pointer">
+       <div @click="() => {$store.dispatch('selectTransaction', transaccion)}" class="border-b border-gray-700 px-2 py-1 hover:bg-gray-800 cursor-pointer">
             <div class="flex">
                 <div class="flex avatar mr-2 items-center justify-center py-1">
-                    <img class="block rounded w-8 object-cover" src="https://lh3.googleusercontent.com/a-/AAuE7mAxk2KAwQILAirQbEtxma5zQPUm6OaQdux_8TyC" alt="">
+                    <img class="block rounded-full w-10 h-10 object-cover" :src="transaccion.photoUrl" alt="">
                 </div>
                 <div class="pl-1 w-full flex items-center">
                     <div class="block w-full">
-                        <p class="font-bold text-xs text-gray-500  text-left leading-normal">{{transaccion.nombres}} {{transaccion.apellidoPaterno}} {{transaccion.apellidoMaterno.charAt(0)}}.</p>
+                        <p class="font-bold text-xs text-gray-500  text-left leading-normal">{{transaccion.nombres}} {{transaccion.apellidoPaterno}} {{transaccion.apellidoMaterno?transaccion.apellidoMaterno.charAt(0):''}}.</p>
                         <div class="flex justify-between">
-                            <p class="text-xs text-left text-gray-600 leading-none">{{transaccion.ultimaValidacion}}</p>
-                            <p class="text-xs text-left text-gray-600 leading-none">{{transaccion.valido?'no autorizado':'autorizado'}}</p>
+                            <p class="text-xs text-left text-gray-600 leading-none">{{transaccion.ci}}</p>
+                            <p v-if="transaccion.type === 'validacion'" class="border-green-500 border px-1 custom-p rounded text-xs text-left text-green-600 leading-none">{{transaccion.type}}</p>
+                            <p v-if="transaccion.type === 'descuento'" class="border-orange-500 border px-1 custom-p rounded text-xs text-left text-orange-600 leading-none">{{transaccion.type}}</p>
+                            <p v-if="transaccion.type === 'actualizacion'" class="border-blue-500 border px-1 custom-p rounded text-xs text-left text-blue-600 leading-none">{{transaccion.type}}</p>
                         </div>
                     </div>
                 </div>
@@ -28,5 +30,9 @@ export default {
 <style scoped>
     .avatar{
         width: 70px;
+    }
+    .custom-p{
+        padding-top: 1px;
+        padding-bottom: 1px;
     }
 </style>

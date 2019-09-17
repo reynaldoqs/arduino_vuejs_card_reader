@@ -1,10 +1,12 @@
 <template>
-    <div class="w-full max-w-4xl bg-white rounded-lg p-4 shadow-xl select-none">
-        <warning-icon v-if="typeof(objValue) === 'undefined' || objValue === null" message="[objValue] property is null or undefined"/>
+    <div class="main-container bg-white rounded-lg p-4 shadow-xl">
+        <warning-icon class="mx-auto" v-if="!objValue" message="[objValue] property is null or undefined"/>
     <div v-else>
         <div class="flex text-left">
             <div class="w-1/3 flex items-center justify-center pb-2">
-                <img class="h-40 object-cover" src="../assets/images/default_user.png" alt="">
+                <div class="h-40 w-40">
+                    <image-uploader :editable="editable" key="userPicture" title="user" :oldPictureUrl="objValue.photoUrl" @onImageUploaded="onImageUploaded"></image-uploader>
+                </div>
             </div>
 
             <div class="w-1/3 p-2">
@@ -56,7 +58,10 @@
             </div>
 
             <div class="w-1/3 flex items-center justify-center pb-2">
-                <img class="h-32 object-cover" src="../assets/images/vehiculos/minibus.png" alt="">
+                <div class="h-40 w-40">
+                   <img class="h-40 w-40 object-cover select-none" draggable="false" :src="carUrl" alt="automovil">
+                   <!-- <image-uploader key="carPictgure" title="car" :oldPictureUrl="objValue.carPhotoUrl" @onImageUploaded="onCarImageUploaded"></image-uploader>-->
+                </div>
             </div>
         </div>
         <div class="flex">
@@ -123,27 +128,42 @@
             <div class="w-1/3 px-3 -mt-3">
 
                 <div class="text-left mb-4">
-                    <span class="text-gray-500 text-xs font-bold ml-2">Relevos:</span>
-                    <ul class="text-gray-700 text-xs ml-1">
-                        <li v-for="(chofer, index) in objValue.relevos" :key="index" class="mb-1 bg-gray-700 rounded-full w-full py-2 px-4 text-gray-200 leading-tight relative shadow-md">
-                            <p class="font-semibold mr-2 text-left flex-auto">{{index+1}}. <span class="ml-2 text-gray-500 font-normal">{{chofer}}</span></p>
-                            <div class="btn-margin h-6 w-6 rounded-full cursor-pointer top-0 bottom-0 right-0 flex items-center justify-center bg-gray-900 absolute">
+                    <span v-show="objValue.relevos?objValue.relevos.length > 0 : false" class="text-gray-500 text-xs font-bold ml-2">Relevos:</span>
+                    <ul v-if="objValue.relevos?objValue.relevos.length > 0 : false" class="text-gray-700 text-xs ml-1">
+                        <li v-for="(relevo, index) in relevos" :key="index" class="mb-1 bg-gray-700 rounded-full w-full py-1 px-4 text-gray-200 leading-tight relative shadow-md">
+                            <p class="font-semibold mr-2 text-left flex-auto">{{index+1}}. <span class="ml-2 text-gray-500 font-normal">{{relevo.chofer}}</span></p>
+                            <div @click="onRemoveRelevo(relevo)" class="btn-margin h-4 w-4 rounded-full cursor-pointer top-0 bottom-0 right-0 flex items-center justify-center bg-gray-900 absolute">
                                 <font-awesome-icon icon="times" class="fill-current opacity-75 text-sm" />
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div>
-                    <a href="#" class="inline-block text-xs px-4 py-2 leading-none border rounded-full text-purple-600 border-purple-600 hover:border-transparent hover:text-white hover:bg-purple-600">Adicionar chofer de relevo</a>
+                <div v-if="!isValidate" class="flex">
+                    <input :readonly="!editable" v-model="relevo.chofer" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="relevo" type="text">
+                    <button @click="onAddRelevo" class="inline-block text-xs font-bold w-20 h-8 ml-2 leading-none border rounded-full text-purple-600 border-purple-600 hover:border-transparent hover:text-white hover:bg-purple-600">añadir</button>
                 </div>
 
                 <div class="mt-3 text-left">
                     <label class="block mb-2  text-left leading-none text-gray-500 text-xs font-bold" for="Observaciones">
                         Observaciones
                     </label>
-                    <textarea :readonly="!editable" v-model="objValue.observaciones" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" name="Observaciones" id="Observaciones" cols="30" rows="2"></textarea>
+                    <textarea v-model="objValue.observaciones" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" name="Observaciones" id="Observaciones" cols="30" rows="2"></textarea>
                 </div>
                 
+                <div v-if="isValidate" class="flex">
+                    <div class="w-1/2">
+                        <my-check-box v-model="objValue.placasLaterales" label="Placas laterales"/>
+                        <my-check-box v-model="objValue.botiquin" label="Botiquin"/>
+                        <my-check-box v-model="objValue.extintor" label="Extintor"/>
+                        
+                    </div>
+                    <div class="w-1/2">
+                        
+                        <my-check-box v-model="objValue.llantaAuxilio" label="Llanta de auxilio"/>
+                        <my-check-box v-model="objValue.triangulo" label="Triangulo"/>
+                        <my-check-box v-model="objValue.herramientas" label="Herramientas"/>
+                    </div>
+                </div>
 
             </div>
             <!-- end bottom center content-->
@@ -217,32 +237,14 @@
 </template>
 <script>
 import WarningIcon from '@/components/WarningIcon'
+import ImageUploader from '@/components/ImageUploader'
+import MyCheckBox from '@/components/MyCheckBox'
 export default {
-    /*data(){
+    data(){
         return {
-            objValue:{
-                idTarjeta:null,
-                operador:null,
-                ruta:null,
-                horarios:null,
-                apellidoPaterno:null,
-                apellidoMaterno:null,
-                nombres:null,
-                ci:null,
-                licencia:null,
-                relevos:['amanda hayta'],
-                observaciones:null,
-                nroChasis:null,
-                nroPlaca:null,
-                modelo:null,
-                capacidad:null,
-                clase:'minibus'
-            },
-            editable: true,
-            nextText:'Validar',
-            cancelText:'Cancelar'
+            relevo:{}
         }
-    },*/
+    },
     props:{
         objValue: Object,
         editable:{
@@ -256,6 +258,35 @@ export default {
         cancelText: {
             type: String,
             default: 'Cancel'
+        },
+        isValidate: {
+            type: Boolean,
+            default: false
+        }
+    },
+    computed:{
+        relevos(){
+            if(this.objValue.relevos){
+                return this.objValue.relevos
+            }
+            return []
+        },
+        carUrl(){
+            //let url = this.objValue.carPhotoUrl
+            let url = this.objValue.clase
+            if(url){
+                switch (url.toLowerCase()) {
+                    case 'minibus':
+                        return require('../assets/images/vehiculos/minibus.jpg')
+                    case 'bus':
+                        return require('../assets/images/vehiculos/bus.jpg')
+                    case 'taxi':
+                        return require('../assets/images/vehiculos/taxi.jpg')
+                    default:
+                        return require('../assets/images/vehiculos/default_car.png')
+                }
+            }
+            return require('../assets/images/vehiculos/default_car.png')
         }
     },
     methods:{
@@ -264,19 +295,47 @@ export default {
         },
         emitAcept(){
             this.$emit('onAcept')
+        },
+        onImageUploaded(url) {
+            this.$emit('onImageUploaded',url)
+        },
+        onCarImageUploaded(url) {
+            this.$emit('onCardImageUploaded',url)
+        },
+        onAddRelevo(){
+             if(!this.objValue.relevos){
+                this.objValue.relevos = []
+            }
+            this.objValue.relevos.push(this.relevo)
+            this.relevo = {}
+        },
+        onRemoveRelevo(relevo){
+            if(this.objValue.relevos){
+                let index = this.objValue.relevos.findIndex(x => x.chofer === relevo.chofer)
+                if(index !== -1){
+                    this.objValue.relevos.splice(index,1)       
+                }
+            }
         }
     },
     components:{
-        WarningIcon
+        WarningIcon,
+        ImageUploader,
+        MyCheckBox
     }
 }
 </script>
 <style scoped>
  .w-form-input{
-     width: 200px;
+     width: 180px;
  }
  .btn-margin{
      margin-top: 3px;
      margin-right: 4px;
- }   
+ } 
+ .main-container{
+     width: 800px;
+     min-width: 800px;
+     max-width: 800px;
+ }  
 </style>

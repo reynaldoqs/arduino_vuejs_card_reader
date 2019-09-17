@@ -4,7 +4,7 @@
            <div class="w-full mb-16 max-w-6xl  bg-white rounded-lg shadow-xl select-none">
                <div class="flex py-4 px-6 rounded-t-lg justify-between bg-gray-100">
                    <div>Buscar</div>
-                   <button @click="abrirAdicionar" class="inline-block text-sm px-8 py-2 mr-4 leading-none border rounded-full text-white bg-purple-600 hover:border-transparent hover:text-purple-600 hover:border-purple-600 hover:bg-white mt-4 lg:mt-0">Adicionar</button>
+                   <button @click="openCreate" class="inline-block text-sm px-8 py-2 mr-4 leading-none border rounded-full text-white bg-purple-600 hover:border-transparent hover:text-purple-600 hover:border-purple-600 hover:bg-white mt-4 lg:mt-0">Adicionar</button>
                </div>
                 <table class="text-left w-full border-collapse"> <!--Border collapse doesn't work on this site yet but it's available in newer tailwind versions -->
                 <thead class="bg-gray-100">
@@ -21,7 +21,7 @@
                 <tbody>
                     <tr v-for="(transaccion, index) in transacciones" :key="index" class="hover-control text-sm text-gray-600 hover:bg-gray-200">
                         <td class="py-2 px-6 border-b border-grey-light flex items-center">
-                            <img class="w-10 h-10 rounded-full object-cover" src="../assets/images/user_default.png" alt="">
+                            <img class="w-10 h-10 rounded-full object-cover bg-gray-300" :src="transaccion.photoUrl" alt="">
                             <div class="ml-3 leading-tight">
                                 <p class="text-gray-700">{{transaccion.nombres}} {{transaccion.apellidoPaterno}} {{transaccion.apellidoMaterno?transaccion.apellidoMaterno.charAt(0):''}}</p>
                                 <p>Carnet: {{transaccion.ci}}</p>
@@ -45,8 +45,11 @@
                 </table>
            </div>  
        </div>
-       <modal :width="896" :height="472"  name="create-card">
-        <transito-reg-card v-on:onCancel="cancelar()" v-on:onAcept="adicionar()" :objValue="newObj" :editable="true"></transito-reg-card>
+       <modal height="auto" :clickToClose="false" name="create-card" :width="800">
+            <transito-reg-card v-on:onCancel="cerrar()" v-on:onAcept="createUser()"  @onAddRelevo="onAddRelevo" @onImageUploaded="onImageUploaded" :objValue="newObj" :editable="true" :isValidate="false"></transito-reg-card>
+        </modal>
+       <modal height="auto" :clickToClose="false" name="edit-card" :width="800">
+            <transito-reg-card v-on:onCancel="cerrar()" v-on:onAcept="editUser()" @onImageUploaded="onImageUploaded" :objValue="editObj" :editable="true" :isValidate="false"></transito-reg-card>
         </modal>
     </div>
 </template>
@@ -59,34 +62,55 @@ import {transaccionesDB} from '@/firebaseDB'
 export default {
     data() {
         return{
-            isAlive:true,
             newObj:{},
+            editObj:{},
             editable: true,
-            nextText:'Aceptar',
-            cancelText:'Cancelar',
             transacciones:[],
-            oldId:null
+            oldId: null,
+            photoUrl: null,
+            carPhotoUrl: null
         }
     },
     firebase: {
         transacciones: transaccionesDB,
     },
     methods:{
-        abrirAdicionar(){
-            this.$modal.show('create-card');
+        openCreate(){
+            this.$modal.show('create-card')
         },
-        adicionar(){
-            //mejorar esta parte: verificar si se modifico el idTarjeta
-            //para luego borrar el documento anterior con el atiguo id
+        createUser(){
             if(this.newObj.idTarjeta){
                 let objId = this.newObj.idTarjeta;
-                transaccionesDB.child(objId).update(this.newObj).then(()=>{
-                    this.newObj = {}
-                    this.$modal.hide('create-card');
+                let orbj = {...this.newObj,photoUrl:this.photoUrl,carPhotoUrl:this.carPhotoUrl}
+                transaccionesDB.child(objId).update(orbj).then(()=>{
+                    this.cerrar()
+                })
+                
+            }else{
+                alert("El id tarjeta es necesario")
+            }
+        },
+        modificar(obj){
+            this.editObj = {...obj}
+            this.oldId = obj.idTarjeta
+            this.$modal.show('edit-card',)
+        },
+        editUser(){
+            if(this.editObj.idTarjeta){
+                let objId = this.editObj.idTarjeta;
+                 let orbj = {...this.editObj}
+                if(this.photoUrl){
+                    orbj = {...orbj, photoUrl:this.photoUrl}
+                }
+                if(this.carPhotoUrl){
+                    orbj = {...orbj, carPhotoUrl:this.carPhotoUrl}
+                }
+                transaccionesDB.child(objId).update(orbj).then(()=>{
                     if(this.oldId && this.oldId !== objId){
                         transaccionesDB.child(this.oldId).remove();
                         this.oldId = null
                     }
+                    this.cerrar()
                 })
                 
             }else{
@@ -95,18 +119,25 @@ export default {
         },
         eliminar(obj){
             if (confirm("Eliminar el elemento?")) {
-                let objId = obj.idTarjeta
-                transaccionesDB.child(objId).remove();
+                transaccionesDB.child(obj.idTarjeta).remove();
             }
         },
-        modificar(obj){
-            this.newObj = {...obj}
-            this.oldId = obj.idTarjeta
-            this.$modal.show('create-card');
-        },
-        cancelar(){
+        cerrar(){
             this.newObj = {}
+            this.editable = {}
+            this.photoUrl = null
+            this.carPhotoUrl = null
             this.$modal.hide('create-card');
+            this.$modal.hide('edit-card');
+        },
+        onImageUploaded(url){
+            this.photoUrl = url
+        },
+        onAddRelevo(relevo){
+            if(!this.newObj.relevos){
+                this.newObj.relevos = []
+            }
+            this.newObj.relevos.push(relevo)
         }
     },
     components:{

@@ -1,6 +1,6 @@
 <template>
     <div class="w-full h-full py-3">
-        <t-chip v-for="(transaccion, index) in transacciones" :key="index" :transaccion="transaccion"/>
+        <t-chip v-for="(transaccion, index) in transacciones.slice().reverse()" :key="index" :transaccion="transaccion"/>
     </div>
 </template>
 <script>

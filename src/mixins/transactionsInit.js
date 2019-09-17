@@ -4,20 +4,15 @@ import { store } from '@/store'
 export const transactionsChanges = {
     created() {
         firebase.database().ref('transacciones').on('child_changed',(snatpshot) => {
-
-           /*data.ref.child('relevos').on("child_changed", function(itemSnapshot) {
-                console.log(itemSnapshot.val());
-            });*/
-
-            if(snatpshot.val()){
-                store.dispatch('addTransaction',snatpshot.val())
-                //console.log(this.$notify)
+            const acepted = ['actualizacion','descuento','validacion']
+            const data = snatpshot.val()
+            if(data && acepted.includes(data.type)){
+                store.dispatch('addTransaction',data)
                 this.$notify({
                     group: 'foo',
-                    data: snatpshot.val()
+                    data: data
                   });
             }
         })
-        console.log('reviones setup done')
     }
 }

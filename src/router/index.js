@@ -2,20 +2,27 @@ import Vue from 'vue'
 import Router from 'vue-router'
 const Home = () => import('@/views/Home')
 
-const Signup = () => import('@/views/Signup')
-const Signin = () => import('@/views/Signin')
+const Login = () => import('@/views/Login')
+
+const OdecoRegistro = () => import('@/views/OdecoRegistro')
+
+const CajeroRecargas = () => import('@/views/CajeroRecargas')
+
+const AdminRegistro = () => import('@/views/AdminRegistro')
+const AdminUsuarios = () => import('@/views/AdminUsuarios')
 
 const TransitoValidacion = () => import('@/views/TransitoValidacion')
 const TransitoRegistros = () => import('@/views/TransitoRegistros')
-//import AuthGuard from './routeGuard'
+
+import AuthGuard from './routeGuard'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '*',
-      redirect: 'signin'
+      redirect: 'login'
     },
     {
       path: '/home',
@@ -23,26 +30,43 @@ export default new Router({
       component: Home
     },
     {
-      path: '/signup',
-      name: 'signup',
-      component: Signup
+      path: '/login',
+      name: 'login',
+      component: Login
     },
     {
-      path: '/signin',
-      name: 'signin',
-      component: Signin
-    },
-    {
-      path: '/transito',
-      name: 'transito',
-      component: TransitoValidacion,
+      path: '/transito-validacion',
+      name: 'transito-validacion',
+      component: TransitoValidacion
     },
     {
       path: '/transito-registros',
       name: 'transito-registros',
       component: TransitoRegistros
+    },
+    {
+      path: '/admin-usuarios',
+      name: 'admin-usuarios',
+      component: AdminUsuarios
+    },
+    {
+      path: '/admin-registro',
+      name: 'admin-registro',
+      component: AdminRegistro
+    },
+    {
+      path: '/cajero-recargas',
+      name: 'cajero-recargas',
+      component: CajeroRecargas
+    },
+    {
+      path: '/odeco-registro',
+      name: 'odeco-registro',
+      component: OdecoRegistro
     }
   ],
   mode: 'history',
   base: process.env.BASE_URL
 })
+router.beforeEach(AuthGuard)
+export default router
