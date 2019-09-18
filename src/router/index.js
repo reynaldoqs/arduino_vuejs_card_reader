@@ -10,6 +10,7 @@ const CajeroRecargas = () => import('@/views/CajeroRecargas')
 
 const AdminRegistro = () => import('@/views/AdminRegistro')
 const AdminUsuarios = () => import('@/views/AdminUsuarios')
+const AdminValidacionesList = () => import('@/views/AdminValidacionesList')
 
 const TransitoValidacion = () => import('@/views/TransitoValidacion')
 const TransitoRegistros = () => import('@/views/TransitoRegistros')
@@ -53,6 +54,11 @@ const router = new Router({
       path: '/admin-registro',
       name: 'admin-registro',
       component: AdminRegistro
+    },
+    {
+      path: '/admin-validaciones-list',
+      name: 'admin-validaciones-list',
+      component: AdminValidacionesList
     },
     {
       path: '/cajero-recargas',

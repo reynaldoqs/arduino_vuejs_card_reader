@@ -7,3 +7,8 @@ export const validate = (data) => {
     const createUser = base('validacion')
     return createUser.create(data)
 }
+export const validaciones = (data = {}) => {
+    console.log(data)
+    const createUser = base('validacion')
+    return createUser.get(data)
+}

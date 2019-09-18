@@ -8,6 +8,12 @@ export const crudder = domain => resource => {
                 url: url,
                 headers: user? {'Authorization' : `Bearer ${JSON.parse(user).token}`}:{},
                 data: x
+            }),
+        get: (x) => axios({
+                method: 'get',
+                url: url,
+                headers: user? {'Authorization' : `Bearer ${JSON.parse(user).token}`}:{},
+                params: x
             })
     })   
 }

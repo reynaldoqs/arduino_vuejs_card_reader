@@ -16,7 +16,7 @@
                     placeholder="Seleccionar usuario">
             </model-list-select>
           </div>
-            <form class="w-full mt-6 mx-auto max-w-sm" v-on:submit.prevent="onSubmit">
+            <form class="w-full mt-10 mx-auto max-w-sm" v-on:submit.prevent>
               
               <div class="md:flex md:items-center mb-6">
                 <div class="md:w-1/3">
@@ -30,13 +30,10 @@
               </div>
 
               <div class="md:flex md:items-center py-2">
-                <div class="md:w-1/3"></div>
-                <div class="md:w-2/3">
-                  <button @click="recharge" class="shadow bg-teal-500 hover:bg-teal-700 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                  <button @click="recharge" class="w-full shadow rounded-full bg-purple-600 hover:bg-purple-700 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
                     Recargar
                   </button>
-                  
-                </div>
+                
               </div>
             </form>
 
@@ -44,8 +41,16 @@
         </div>
 
         <div class="w-full md:w-2/4 p-4 text-center text-gray-700">
-
-            <warning-icon message="Seleccione un usuario"/>
+            <div v-if="objectItem.nombres">
+              <img class="w-40 h-40 mx-auto rounded-full object-cover" :src="objectItem.photoUrl" />
+              <p class="mt-6 font-bold">
+                {{objectItem.nombres}} {{objectItem.apellidoPaterno}} {{objectItem.apellidoMaterno}}
+              </p>
+              <p class="text-red-400 font-bold">
+                {{objectItem.credito}} Bs
+              </p>
+            </div>
+            <warning-icon v-else message="Seleccione un usuario"/>
         </div>
       </div>
 
@@ -64,7 +69,7 @@ export default {
     return {
         users: [],
         currentMount: null,
-        objectItem: {},
+        objectItem: {}
     }
   },
   firebase: {
@@ -72,28 +77,24 @@ export default {
   },
   methods: {
     codeAndNameAndDesc (item) {
-        return `[${item.idTarjeta}] ${item.nombres} ${item.apellidoPaterno} ${item.apellidoMaterno} `
+        return `${item.idTarjeta} - ${item.nombres} ${item.apellidoPaterno} ${item.apellidoMaterno} `
     },
     recharge(){
-      /*if(this.userSelected && this.currentMount > 0){
+      //mandar a vuex, primero post en nodejs y luego en firebase
+      if(this.objectItem.idTarjeta && this.currentMount > 0){
 
-        let objId = this.userSelected['.key'];
-        let {credito} = this.userSelected; 
-        this.$firebaseRefs.users.child(objId).update({fechaUltimaRecarga: firebaseBase.database.ServerValue.TIMESTAMP, credito:(credito + this.currentMount)}).then(()=>{
+        let objId = this.objectItem.idTarjeta;
+        let {credito} = this.objectItem; 
+        firebase.database().ref('transacciones').child(objId).update({credito:(credito + this.currentMount)}).then(()=>{
 
-          this.$firebaseRefs.users.child(objId+'/recargas').push({fechaRecarga: firebaseBase.database.ServerValue.TIMESTAMP,monto:this.currentMount,cajero:'Cajero sin definir'})
+          /*this.$firebaseRefs.users.child(objId+'/recargas').push({fechaRecarga: firebaseBase.database.ServerValue.TIMESTAMP,monto:this.currentMount,cajero:'Cajero sin definir'})
           this.currentMount = null;
-          this.userSelected = null;
-        });
-        
-
-      }else{
-        console.log('User unselected or mount is 0!')
-      }
-*/
-    },
-    reset () {
+          this.userSelected = null;*/
+          
         this.objectItem = {}
+        this.currentMount = null
+        });
+      }
     },
     selectFromParentComponent1 () {
         // select option from parent component

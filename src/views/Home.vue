@@ -40,6 +40,10 @@ export default {
                             path: '/admin-usuarios'
                         },
                         {
+                            title: 'Admin Validaciones lista',
+                            path: '/admin-validaciones-list'
+                        },
+                        {
                             title: 'Cajero Recargas',
                             path: '/cajero-recargas'
                         },
