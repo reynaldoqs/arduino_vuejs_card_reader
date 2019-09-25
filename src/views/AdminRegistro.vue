@@ -1,71 +1,128 @@
 <template>
-    <div class="w-full router-view-height pt-1 flex items-center justify-center">
-    <form class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 max-w-xs" @submit.prevent>
-        <div class="mb-4 text-left">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="userName">
-                Nombre(s)
-            </label>
-            <input v-model="nombres" class="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="userName" type="text" placeholder="Nombre(s)">
-        </div>
-        <div class="mb-4 text-left">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="userEmail">
-                Correo
-            </label>
-            <input v-model="email" class="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="userEmail" type="text" placeholder="Email">
-        </div>
-        <div class="mb-4 text-left">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="userCI">
-                Cedula de Identidad
-            </label>
-            <input v-model="ci" class="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="userCI" type="text" placeholder="Ci">
-        </div>
-        <div class="mb-5 text-left">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-                Contraseña
-            </label>
-            <input @keyup.enter="onSigin" v-model="password" class="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************">
-            <p class="text-red-500 text-xs italic">{{error?error:''}}</p>
-        </div>
-        <div class="block text-left">
-            <button @click="onSigin" class="w-full mb-8 p-1 border rounded-full text-purple-600 border-purple-600 hover:border-transparent hover:text-white hover:bg-purple-600" type="button">
-                Registrarse
-            </button>
+    <div class="w-full router-view-height flex items-center justify-center">
+    <form class="bg-white shadow-md rounded-lg pl-8 pr-8 pt-10 max-w-2xl" @submit.prevent>
+        <div class="flex">
+        <div class="mr-3">
 
-            <span class="text-xs text-gray-500 text-left">¿Olvidaste tu contraseña? </span>
-            <router-link tag="a" to="/resetpasword" class="ml-2 font-bold text-xs text-purple-600 text-left hover:text-purple-800">
-                Restablecer
-            </router-link>
+            <div class="mb-4">
+                <label class="block text-gray-500 text-xs font-bold md:text-right mb-1 md:mb-0 pr-4" for="nombres">
+                    Nombre(s)
+                </label>
+                <input :readonly="!editable" v-model="nombres" class="w-form-input bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="nombres" type="text">
+            </div>
+
+            <div class="mb-4">
+                    <label class="block text-gray-500 text-xs font-bold md:text-right mb-1 md:mb-0 pr-4" for="apPaterno">
+                        Apellido Paterno
+                    </label>
+                    <input :readonly="!editable" v-model="apellidoPaterno" class="w-form-input bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="apPaterno" type="text">
+            </div>
+
+            <div class="mb-4">
+                    <label class="block text-gray-500 text-xs font-bold md:text-right mb-1 md:mb-0 pr-4" for="apMaterno">
+                        Apellido Materno
+                    </label>
+                    <input :readonly="!editable" v-model="apellidoMaterno" class="w-form-input bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="apMaterno" type="text">
+            </div>
+
+            <div class="mb-4">
+                    <label class="block text-gray-500 text-xs font-bold md:text-right mb-1 md:mb-0 pr-4" for="ci">
+                        Cedula de Identidad
+                    </label>
+                    <input :readonly="!editable" v-model="ci" class="w-form-input bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="ci" type="text">
+
+            </div>
+
+        </div>
+
+        <div class="ml-3">
+
+            <div class="mb-4">
+                    <label class="block text-gray-500 text-xs font-bold md:text-right mb-1 md:mb-0 pr-4" for="email">
+                        Correo Electronico
+                    </label>
+                    <input :readonly="!editable" v-model="email" class="w-form-input bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="email" type="text">
+                
+            </div>
+
+            <div class="mb-4">
+                    <label class="block text-gray-500 text-xs font-bold md:text-right mb-1 md:mb-0 pr-4" for="ci">
+                        Numero de Celular
+                    </label>
+                    <input :readonly="!editable" v-model.number="celular" class="w-form-input bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="celular" type="text">
+            
+            </div>
+
+            <div class="mb-4">
+                    <label class="block text-gray-500 text-xs font-bold md:text-right mb-1 md:mb-0 pr-4" for="cargo">
+                        Cargo
+                    </label>
+                <select v-model="cargo" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="cargo">
+                    <option v-for="(cargo,index) in cargos" v-bind:key="index" v-bind:value="cargo">
+                        <span >{{index+1}}</span> - {{cargo}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                    <label class="block text-gray-500 text-xs font-bold md:text-right mb-1 md:mb-0 pr-4" for="password">
+                        Contraseña
+                    </label>
+                    <input :readonly="!editable" @keyup.enter="onSigin" v-model="password" class="w-form-input bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="password" type="password">
+              
+            </div>
+        </div>
+        </div>
+        <div class="block text-right pt-2">
+            <p v-show="error" class="text-red-600">{{error}}</p>
+            <button @click="onSigin" class="mb-8 px-6 py-1 text-sm border rounded-full text-purple-600 border-purple-600 hover:border-transparent hover:text-white hover:bg-purple-600" type="button">
+                Registrar
+            </button>
         </div>
     </form>
     </div>
 </template>
 <script>
+import { userSignUp } from '@/services/auth'
 export default {
     data(){
         return {
-            nombres: '',
-            email: '',
-            password: '',
-            ci: ''
-        }
-    },
-    computed:{
-        user(){
-            return this.$store.getters.user
-        },
-        error(){
-            return this.$store.getters.error
+            editable: true,
+            error:null,
+            isLoading: false,
+
+            nombres: null,
+            apellidoPaterno: null,
+            apellidoMaterno: null,
+            ci: null,
+            email: null,
+            celular: null,
+            cargo: null,
+            password: null,
+            cargos: ['administrador', 'transito-validador', 'transito-administrador', 'cajero', 'odeco', 'observador']
         }
     },
     methods: {
-        onSigin(){
-            this.$store.dispatch('signUserUp',{nombres:this.nombres, email:this.email, password:this.password, ci:this.ci})
-        },
-        onResetPassword() {
-            if (this.email === '') {
-            return this.$store.dispatch('setError', {message: 'Email can not be blank'})
+        async onSigin(){
+            try {
+                this.isLoading = true
+                const datos = {nombres:this.nombres, apellidoPaterno: this.apellidoPaterno, apellidoMaterno: this.apellidoMaterno, ci:this.ci, email:this.email, celular: this.celular, cargo: this.cargo, password: this.password}
+                await userSignUp(datos)
+                this.nombres = null
+                this.apellidoPaterno = null
+                this.apellidoMaterno = null
+                this.ci = null
+                this.email = null
+                this.celular = null
+                this.cargo = null
+                this.password = null
+                this.isLoading = false 
+                this.$router.push('/home')
+            } catch (error) {
+                console.error(error)
+                this.error = error
+                this.isLoading = false
             }
-            this.$store.dispatch('resetPasswordWithEmail', {email: this.email})
         },
         onDismissed() {
             this.$store.dispatch('clearError')

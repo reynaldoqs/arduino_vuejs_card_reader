@@ -5,30 +5,39 @@
                     <table id="example" class="stripe hover w-full">
                         <thead>
                             <tr class="border-b border-grey-light">
-                                <th data-priority="1">Usuario</th>
-                                <th data-priority="2">Correo</th>
-                                <th data-priority="3">Num. Celular</th>
-                                <th data-priority="4">Cargo</th>
-                                <th data-priority="5">Acciones</th>
+                                <th data-priority="1">Cliente</th>
+                                <th data-priority="2">Monto de recarga</th>
+                                <th data-priority="3">Credito previo</th>
+                                <th data-priority="4">Fecha de recarga</th>
+                                <th data-priority="5">Cajero</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="my-row" v-for="(doc, index) in docs" :key="index">
                                 <td class="py-2 px-2">
-                                    <p>
-                                        {{doc.nombres}} {{doc.apellidoPaterno}} {{doc.apellidoMaterno}}
+                                    <p v-if="!doc._cliente">
+                                        cliente no encontrado
                                     </p>
-                                    <p>
-                                        {{doc.ci}}
+                                    <p v-if="doc._cliente">
+                                        {{doc._cliente.nombres}} {{doc._cliente.apellidoPaterno}} {{doc._cliente.apellidoMaterno}}
+                                    </p>
+                                    <p v-if="doc._cliente">
+                                        {{doc._cliente.ci}}
                                     </p>
                                 </td>
-                                <td>{{doc.email}}</td>
-                                <td>{{doc.celular}}</td>
-                                <td>{{doc.cargo}}</td>
+                                <td>{{doc.montoRecarga}} Bs</td>
+                                <td>{{doc.creditoPrevio}} Bs</td>
+                                <td>{{doc.fechaRecarga | fecha}}</td>
                                 <td>
-                                    <button @click="remove(doc.email)" class="text-red-400 cursor-pointer py-1 px-2">
-                                        <font-awesome-icon  icon="trash"/> 
-                                    </button>                                
+                                    <p v-if="!doc._cajero">
+                                        cajero no encontrado
+                                    </p>
+                                    <p v-if="doc._cajero">
+                                        {{doc._cajero.nombres}} {{doc._cajero.apellidoPaterno}} {{doc._cajero.apellidoMaterno}}
+                                    </p>
+                                    <p v-if="doc._cajero">
+                                        {{doc._cajero.cargo}}
+                                    </p>
                                 </td>
                             </tr>
                         </tbody>
@@ -37,7 +46,6 @@
                         <div class="">
                                 Mostrando {{limit}} documentos de {{totalDocs}} registros
                         </div>
-                        
                         <div class="flex items-center">
                             <button :disabled="!hasPrevPage" @click="fetch(page-1)" class="font-bold mx-4">Previous</button>
                             <div>
@@ -56,7 +64,7 @@
    </div>
 </template>
 <script>
-import { usuarios, remove } from '@/services/usuarios'
+import { recargas } from '@/services/recargas'
 export default {
     data(){
         return{
@@ -79,7 +87,7 @@ export default {
        
             try {
                 this.isLoading = true
-                const { data } = await usuarios({page,limit,query})
+                const { data } = await recargas({page,limit,query})
                 this.docs = data.docs
                 this.totalDocs = data.totalDocs
                 this.limit = data.limit
@@ -92,21 +100,6 @@ export default {
                 this.nextPage = data.nextPage
                 this.isLoading = false
 
-            } catch (error) {
-                console.error(error)
-                this.error = error
-                this.isLoading = false
-            }
-        },
-        async remove(email){
-            try {
-                this.isLoading = true
-                if (confirm("Eliminar el elemento?")) {
-                    await remove({email})
-                    let index = this.docs.findIndex(x => x.email === email)
-                    if(index !== -1) this.docs.splice(index,1)
-                }
-                this.isLoading = false
             } catch (error) {
                 console.error(error)
                 this.error = error

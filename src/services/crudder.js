@@ -9,11 +9,23 @@ export const crudder = domain => resource => {
                 headers: user? {'Authorization' : `Bearer ${JSON.parse(user).token}`}:{},
                 data: x
             }),
+        update: (x) => axios({
+                method: 'patch',
+                url: url,
+                headers: user? {'Authorization' : `Bearer ${JSON.parse(user).token}`}:{},
+                data: x
+            }),
         get: (x) => axios({
                 method: 'get',
                 url: url,
                 headers: user? {'Authorization' : `Bearer ${JSON.parse(user).token}`}:{},
                 params: x
+            }),
+        delete: (x) => axios({
+                method: 'delete',
+                url: url,
+                headers: user? {'Authorization' : `Bearer ${JSON.parse(user).token}`}:{},
+                data: x
             })
     })   
 }

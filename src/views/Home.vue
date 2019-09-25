@@ -28,45 +28,57 @@ export default {
             }
           ]
     }
-            switch (this.$store.getters.user.cargo) {
-              case 'administrador':
-                  return [
-                        {
-                            title: 'Admin Registro',
-                            path: '/admin-registro'
-                        },
-                        {
-                            title: 'Admin Usuarios',
-                            path: '/admin-usuarios'
-                        },
-                        {
-                            title: 'Admin Validaciones lista',
-                            path: '/admin-validaciones-list'
-                        },
-                        {
-                            title: 'Cajero Recargas',
-                            path: '/cajero-recargas'
-                        },
-                        {
-                            title: 'Odeco Registro',
-                            path: '/odeco-registro'
-                        },
-                        {
-                            title: 'Transito Registros',
-                            path: '/transito-registros'
-                        },
-                        {
-                            title: 'Transito Validacion',
-                            path: '/transito-validacion'
-                        }
-                    ]
-                default:
-                    return [
-                        {
-                            title: 'Ingresar al sistema',
-                            path: '/login'
-                        }
-                    ]
+  switch (this.$store.getters.user.cargo) {
+    case 'administrador':
+         return [
+              {
+                  title: 'Admin Registro',
+                  path: '/admin-registro'
+               },
+              {
+                  title: 'Admin Usuarios',
+                  path: '/admin-usuarios'
+               },
+               {
+                  title: 'Admin Validaciones lista',
+                  path: '/admin-validaciones-list'
+              },
+              {
+                title: 'Admin Recargas Lista',
+                path: '/admin-recargas-list'
+              },
+              {
+                  title: 'Cajero Recargas',
+                  path: '/cajero-recargas'
+              },
+              {
+                  title: 'Odeco Registro',
+                  path: '/odeco-registro'
+              },
+              {
+                title: 'Odeco objetos perdidos',
+                path: '/odeco-objetos'
+              },
+              {
+                  title: 'Transito Validacion',
+                  path: '/transito-validacion'
+              },
+              {
+                  title: 'Transito cliente',
+                  path: '/transito-registro-cliente'
+              },
+              {
+                  title: 'Transito clientes lista',
+                  path: '/transito-clientes'
+              }
+           ]
+       default:
+           return [
+              {
+                  title: 'Ingresar al sistema',
+                  path: '/login'
+              }
+          ]
             }
         }
     },

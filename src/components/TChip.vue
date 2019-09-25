@@ -1,6 +1,6 @@
 <template>
     <div class="w-full bg-gray-900">
-       <div @click="() => {$store.dispatch('selectTransaction', transaccion)}" class="border-b border-gray-700 px-2 py-1 hover:bg-gray-800 cursor-pointer">
+       <div @click="() => {transaccion.type === 'validacion'?$store.dispatch('selectTransaction', transaccion):''}" class="border-b border-gray-700 px-2 py-1 hover:bg-gray-800 cursor-pointer">
             <div class="flex">
                 <div class="flex avatar mr-2 items-center justify-center py-1">
                     <img class="block rounded-full w-10 h-10 object-cover" :src="transaccion.photoUrl" alt="">
@@ -11,6 +11,7 @@
                         <div class="flex justify-between">
                             <p class="text-xs text-left text-gray-600 leading-none">{{transaccion.ci}}</p>
                             <p v-if="transaccion.type === 'validacion'" class="border-green-500 border px-1 custom-p rounded text-xs text-left text-green-600 leading-none">{{transaccion.type}}</p>
+                            <p v-if="transaccion.type === 'validado'" class="border-green-200 border px-1 custom-p rounded text-xs text-left text-green-300 leading-none">{{transaccion.type}}</p>
                             <p v-if="transaccion.type === 'descuento'" class="border-orange-500 border px-1 custom-p rounded text-xs text-left text-orange-600 leading-none">{{transaccion.type}}</p>
                             <p v-if="transaccion.type === 'actualizacion'" class="border-blue-500 border px-1 custom-p rounded text-xs text-left text-blue-600 leading-none">{{transaccion.type}}</p>
                         </div>

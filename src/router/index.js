@@ -5,15 +5,18 @@ const Home = () => import('@/views/Home')
 const Login = () => import('@/views/Login')
 
 const OdecoRegistro = () => import('@/views/OdecoRegistro')
+const OdecoObjetosPerdidos = () => import('@/views/OdecoObjetosPerdidos')
 
 const CajeroRecargas = () => import('@/views/CajeroRecargas')
 
 const AdminRegistro = () => import('@/views/AdminRegistro')
 const AdminUsuarios = () => import('@/views/AdminUsuarios')
 const AdminValidacionesList = () => import('@/views/AdminValidacionesList')
+const AdminRecargasList = () => import('@/views/AdminRecargasList')
 
 const TransitoValidacion = () => import('@/views/TransitoValidacion')
-const TransitoRegistros = () => import('@/views/TransitoRegistros')
+const TransitoRegistroCliente = () => import('@/views/TransitoRegistroCliente')
+const TransitoClientes = () => import('@/views/TransitoClientes')
 
 import AuthGuard from './routeGuard'
 
@@ -41,9 +44,14 @@ const router = new Router({
       component: TransitoValidacion
     },
     {
-      path: '/transito-registros',
-      name: 'transito-registros',
-      component: TransitoRegistros
+      path: '/transito-registro-cliente',
+      name: 'transito-registro-cliente',
+      component: TransitoRegistroCliente
+    },
+    {
+      path: '/transito-clientes',
+      name: 'transito-clientes',
+      component: TransitoClientes
     },
     {
       path: '/admin-usuarios',
@@ -61,6 +69,11 @@ const router = new Router({
       component: AdminValidacionesList
     },
     {
+      path: '/admin-recargas-list',
+      name: 'admin-recargas-list',
+      component: AdminRecargasList
+    },
+    {
       path: '/cajero-recargas',
       name: 'cajero-recargas',
       component: CajeroRecargas
@@ -69,6 +82,11 @@ const router = new Router({
       path: '/odeco-registro',
       name: 'odeco-registro',
       component: OdecoRegistro
+    },
+    {
+      path: '/odeco-objetos',
+      name: 'odeco-objetos',
+      component: OdecoObjetosPerdidos
     }
   ],
   mode: 'history',

@@ -13,7 +13,7 @@ import Vue from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faExclamation, faTimes, faImage, faUpload, faFirstAid, faFireExtinguisher, faTools, faCog, faExclamationTriangle, faAd} from '@fortawesome/free-solid-svg-icons'
+import { faExclamation, faTimes, faImage, faUpload, faFirstAid, faFireExtinguisher, faTools, faCog, faExclamationTriangle, faAd, faTrash, faUserEdit} from '@fortawesome/free-solid-svg-icons'
 import { faGoogle,faFacebookF} from '@fortawesome/free-brands-svg-icons'
 
 library.add(faExclamation)
@@ -27,7 +27,8 @@ library.add(faTools)
 library.add(faCog)
 library.add(faExclamationTriangle)
 library.add(faAd)
-
+library.add(faTrash)
+library.add(faUserEdit)
 
 library.add(faGoogle)
 library.add(faFacebookF)
@@ -43,9 +44,23 @@ Vue.use(Notifications)
 //vue-search-select
 import 'vue-search-select/dist/VueSearchSelect.css'
 
+//socket io
+import VueSocketIO from 'vue-socket.io'
+import { store } from './store'
 //custom filter date
+Vue.use(new VueSocketIO({
+    debug: true,
+    connection: 'http://localhost:3000', 
+    vuex: {
+      store,
+      actionPrefix: "SOCKET_",
+      mutationPrefix: "SOCKET_"
+    },
+  })
+);
 
 Vue.filter('fecha', (value) => {
+    if(!value) return ''
     let splited = value.split('-')
     const year = splited[0]
     const month = splited[1]

@@ -28,18 +28,43 @@
 import ValidacionesList from '@/components/ValidacionesList'
 import WarningIcon from '@/components/WarningIcon'
 import TransitoRegCard from '@/components/TransitoRegCard'
-
-import { transaccionesDB } from '@/firebaseDB'
+import { updateCliente } from '@/services/clientes'
+import { validate } from '@/services/validacion'
 
 export default {
     data() {
         return{
-            transacciones:[],
             currentTransaction: null,
+            isLoading: false
         }
     },
-    firebase: {
-        transacciones: transaccionesDB,
+    sockets: {
+        validacion: function(data){
+            if(data){
+                const newData = {
+                    ...data,
+                    type:'validacion'
+                }
+                this.$store.dispatch('addTransaction',newData)
+                this.$notify({
+                    group: 'foo',
+                    data: newData
+                });
+            }
+        },
+        descuento: function(data){
+            if(data){
+                const newData = {
+                    ...data,
+                    type:'descuento'
+                }
+                this.$store.dispatch('addTransaction',newData)
+                /*this.$notify({
+                    group: 'foo',
+                    data: newData
+                });*/
+            }
+        }
     },
     computed:{
         selectedTransaction(){
@@ -60,23 +85,33 @@ export default {
         notificar(){
             console.log(' no nada')
         },
-        validar(){
-            const {idTarjeta, nombres, apellidoPaterno, apellidoMaterno, ci,
-                    observaciones, botiquin, extintor, triangulo, placasLaterales, llantaAuxilio, herramientas} = this.currentTransaction
-            
-            const validation = {
-                usuario: {
-                    idTarjeta, nombres, apellidoPaterno, apellidoMaterno, ci
-                },
-                observaciones:observaciones? observaciones: null,
-                botiquin:botiquin? botiquin:false,
-                extintor:extintor? extintor:false,
-                triangulo:triangulo? triangulo:false,
-                placasLaterales:placasLaterales? placasLaterales:false,
-                llantaAuxilio:llantaAuxilio?llantaAuxilio:false,
-                herramientas:herramientas?herramientas:false
+        async validar(){
+            try {
+                this.isLoading = true
+                const {_id, observaciones, botiquin,
+                extintor, triangulo, placasLaterales,
+                llantaAuxilio, herramientas} = this.currentTransaction
+                
+                const validation = {
+                    _cliente:_id,
+                    observaciones:observaciones? observaciones: null,
+                    botiquin:botiquin? botiquin:false,
+                    extintor:extintor? extintor:false,
+                    triangulo:triangulo? triangulo:false,
+                    placasLaterales:placasLaterales? placasLaterales:false,
+                    llantaAuxilio:llantaAuxilio?llantaAuxilio:false,
+                    herramientas:herramientas?herramientas:false
+                }
+                await validate(validation)
+                await updateCliente(_id,{observaciones:observaciones})
+                this.cancelar()
+                this.isLoading = false
+
+            console.log(validation)
+            } catch (error) {
+                this.isLoading = false
+                console.error(error)
             }
-            this.$store.dispatch('validateTransaction', validation)
 
         },
         cancelar(){

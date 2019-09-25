@@ -46,12 +46,11 @@
   </div>
 </template>
 <script>
-import { transactionsChanges } from '@/mixins/transactionsInit'
 import { checkUserSession } from '@/mixins/userSessionInit'
 import NavBar from '@/components/NavBar'
 import loading from 'vue-full-loading'
 export default {
-  mixins:[transactionsChanges, checkUserSession],
+  mixins:[checkUserSession],
   components:{
     NavBar,
     loading

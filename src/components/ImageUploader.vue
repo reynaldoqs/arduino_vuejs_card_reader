@@ -19,6 +19,7 @@
 import firebase from 'firebase/app'
 import 'firebase/storage'
 export default {
+    name:'image-uploader',
     data () {
         return {
             completedPercent: 0,

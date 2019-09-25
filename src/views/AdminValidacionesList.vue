@@ -5,7 +5,7 @@
                     <table id="example" class="stripe hover w-full">
                         <thead>
                             <tr class="border-b border-grey-light">
-                                <th data-priority="1">Usuario</th>
+                                <th data-priority="1">Cliente</th>
                                 <th data-priority="2">Observacion</th>
                                 <th data-priority="3">Detalles</th>
                                 <th data-priority="4">Fecha de validacion</th>
@@ -15,14 +15,17 @@
                         <tbody>
                             <tr class="my-row" v-for="(doc, index) in docs" :key="index">
                                 <td class="py-2 px-2">
-                                    <p>
-                                        {{doc.usuario.nombres}} {{doc.usuario.apellidoPaterno}} {{doc.usuario.apellidoMaterno}}
+                                    <p v-if="!doc._cliente">
+                                        cliente no encontrado
                                     </p>
-                                    <p>
-                                        {{doc.usuario.ci}}
+                                    <p v-if="doc._cliente">
+                                        {{doc._cliente.nombres}} {{doc._cliente.apellidoPaterno}} {{doc._cliente.apellidoMaterno}}
+                                    </p>
+                                    <p v-if="doc._cliente">
+                                        {{doc._cliente.ci}}
                                     </p>
                                 </td>
-                                <td>{{doc.observacion}}</td>
+                                <td>{{doc.observaciones}}</td>
                                 <td>
                                     <font-awesome-icon :class="[doc.botiquin?'text-green-300':'text-gray-300','ml-2']" icon="first-aid"/>
                                     <font-awesome-icon :class="[doc.extintor?'text-green-300':'text-gray-300','ml-2']" icon="fire-extinguisher"/>
@@ -33,11 +36,14 @@
                                 </td>
                                 <td>{{doc.fechaValidacion | fecha}}</td>
                                 <td>
-                                    <p>
-                                        {{doc._validador.nombres}}
+                                    <p v-if="!doc._validador">
+                                        validador no encontrado
                                     </p>
-                                    <p>
-                                        {{doc._validador.email}}
+                                    <p v-if="doc._validador">
+                                        {{doc._validador.nombres}} {{doc._validador.apellidoPaterno}} {{doc._validador.apellidoMaterno}}
+                                    </p>
+                                    <p v-if="doc._validador">
+                                        {{doc._validador.cargo}}
                                     </p>
                                 </td>
                             </tr>
@@ -48,15 +54,18 @@
                                 Mostrando {{limit}} documentos de {{totalDocs}} registros
                         </div>
                         <div class="flex items-center">
-                            <p class="font-bold mx-4">Previous</p>
+                            <button :disabled="!hasPrevPage" @click="fetch(page-1)" class="font-bold mx-4">Previous</button>
                             <div>
-                                <button v-for="(cpage, index) in totalPages" :key="index" :class="[cpage === page?'bg-purple-600':'bg-purple-300','w-8', 'h-8', 'mx-1', 'cursor-pointer rounded','text-white']">
+                                <button :disabled="cpage === page" @click="fetch(cpage)" v-for="(cpage, index) in totalPages" :key="index" :class="[cpage === page?'bg-purple-600':'bg-purple-300','w-8', 'h-8', 'mx-1', 'cursor-pointer rounded','text-white']">
                                     {{cpage}}
                                 </button>
                             </div>
-                            <p class="font-bold mx-4">Next</p>
+                            <button :disabled="!hasNextPage" @click="fetch(page+1)" class="font-bold mx-4">Next</button>
                         </div>
                     </tfoot>
+                    <p v-show="error" class="text-red-400 text-right mt-4">
+                        {{error}}
+                    </p>
                 </div>
         </div>
    </div>
@@ -76,15 +85,16 @@ export default {
             pagingCounter:null,
             prevPage:null,
             nextPage:null,
-            isLoading: false
+            isLoading: false,
+            error: null
         }
     },
     methods: {
-        async fetch() {
+        async fetch(page = 1, limit = 10, query = {}) {
+       
             try {
                 this.isLoading = true
-                const { data } = await validaciones({limit:12,page:1})
-                console.log(data)
+                const { data } = await validaciones({page,limit,query})
                 this.docs = data.docs
                 this.totalDocs = data.totalDocs
                 this.limit = data.limit
@@ -98,7 +108,9 @@ export default {
                 this.isLoading = false
 
             } catch (error) {
-                console.log(error)
+                console.error(error)
+                this.error = error
+                this.isLoading = false
             }
         }
     },

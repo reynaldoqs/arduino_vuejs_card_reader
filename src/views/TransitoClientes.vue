@@ -5,15 +5,19 @@
                     <table id="example" class="stripe hover w-full">
                         <thead>
                             <tr class="border-b border-grey-light">
-                                <th data-priority="1">Usuario</th>
-                                <th data-priority="2">Correo</th>
-                                <th data-priority="3">Num. Celular</th>
-                                <th data-priority="4">Cargo</th>
-                                <th data-priority="5">Acciones</th>
+                                <th data-priority="1">Foto</th>
+                                <th data-priority="2">Cliente</th>
+                                <th data-priority="3">Id Tarjeta</th>
+                                <th data-priority="4">Saldo</th>
+                                <th data-priority="5">Vehiculo</th>
+                                <th data-priority="6">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="my-row" v-for="(doc, index) in docs" :key="index">
+                                <td>
+                                    <img class="ml-2 rounded-full w-10 h-10 object-cover" :src="doc.photoUrl" alt="cliente">
+                                </td>
                                 <td class="py-2 px-2">
                                     <p>
                                         {{doc.nombres}} {{doc.apellidoPaterno}} {{doc.apellidoMaterno}}
@@ -22,13 +26,23 @@
                                         {{doc.ci}}
                                     </p>
                                 </td>
-                                <td>{{doc.email}}</td>
-                                <td>{{doc.celular}}</td>
-                                <td>{{doc.cargo}}</td>
+                                <td>{{doc.idTarjeta}}</td>
+                                <td>{{doc.credito}} Bs </td>
+                                <td class="py-2 px-2">
+                                    <p>
+                                        {{doc.clase}}
+                                    </p>
+                                    <p>
+                                        {{doc.nroPlaca}}
+                                    </p>
+                                </td>
                                 <td>
                                     <button @click="remove(doc.email)" class="text-red-400 cursor-pointer py-1 px-2">
                                         <font-awesome-icon  icon="trash"/> 
-                                    </button>                                
+                                    </button>   
+                                    <button @click="remove(doc.email)" class="text-orange-400 cursor-pointer py-1 px-2">
+                                        <font-awesome-icon  icon="user-edit"/> 
+                                    </button>                             
                                 </td>
                             </tr>
                         </tbody>
@@ -37,7 +51,6 @@
                         <div class="">
                                 Mostrando {{limit}} documentos de {{totalDocs}} registros
                         </div>
-                        
                         <div class="flex items-center">
                             <button :disabled="!hasPrevPage" @click="fetch(page-1)" class="font-bold mx-4">Previous</button>
                             <div>
@@ -56,7 +69,7 @@
    </div>
 </template>
 <script>
-import { usuarios, remove } from '@/services/usuarios'
+import { getClientes } from '@/services/clientes'
 export default {
     data(){
         return{
@@ -76,10 +89,9 @@ export default {
     },
     methods: {
         async fetch(page = 1, limit = 10, query = {}) {
-       
             try {
                 this.isLoading = true
-                const { data } = await usuarios({page,limit,query})
+                const { data } = await getClientes({page,limit,query})
                 this.docs = data.docs
                 this.totalDocs = data.totalDocs
                 this.limit = data.limit
@@ -96,13 +108,14 @@ export default {
                 console.error(error)
                 this.error = error
                 this.isLoading = false
+
             }
         },
         async remove(email){
             try {
                 this.isLoading = true
                 if (confirm("Eliminar el elemento?")) {
-                    await remove({email})
+                    //await crear eliminar clientes
                     let index = this.docs.findIndex(x => x.email === email)
                     if(index !== -1) this.docs.splice(index,1)
                 }
