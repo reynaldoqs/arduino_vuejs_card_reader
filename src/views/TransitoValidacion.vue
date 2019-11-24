@@ -58,7 +58,8 @@ export default {
                     ...data,
                     type:'descuento'
                 }
-                this.$store.dispatch('addTransaction',newData)
+                console.log(newData)
+                //this.$store.dispatch('addTransaction',newData)
                 /*this.$notify({
                     group: 'foo',
                     data: newData
@@ -104,6 +105,9 @@ export default {
                 }
                 await validate(validation)
                 await updateCliente(_id,{observaciones:observaciones})
+                this.$store.dispatch('updateTransactionType',
+                {idTarjeta:this.currentTransaction.idTarjeta,type:'validado'}
+                )
                 this.cancelar()
                 this.isLoading = false
 

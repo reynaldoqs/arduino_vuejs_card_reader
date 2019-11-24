@@ -20,6 +20,14 @@ export default {
           state.transactions.push(payload)
         }
         
+      },
+      setType(state, payload){
+        let index = state.transactions.findIndex(e => e.idTarjeta === payload.idTarjeta)
+        if( index === -1){
+          return
+        } else {
+          state.transactions[index].type = payload.type
+        }
       }
     },
     actions: {
@@ -49,6 +57,17 @@ export default {
       clearTransaction({commit}) {
         commit('setSelectedTransaction', null)
       },
+      updateTransactionType({commit}, payload){
+        commit('setLoading', true)
+        commit('clearError')
+        if(payload){
+            commit('setLoading', false)
+            commit('setType', payload)
+        }else{
+            commit('setError', 'Payload is null or undefined')
+        }
+      },
+      //we are not using it atm
       validateTransaction({commit}, payload){
         commit('setLoading', true)
         commit('clearError')

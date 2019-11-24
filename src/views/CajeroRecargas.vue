@@ -30,7 +30,7 @@
 
         <div class="w-full md:w-2/4 p-4 text-center text-gray-700">
             <div v-if="objectItem.nombres">
-              <img class="w-32 h-32 mx-auto rounded-full bg-gray-700 object-cover" :src="objectItem.photoUrl" />
+              <img class="w-32 h-32 mx-auto rounded bg-gray-700 object-cover" :src="imgUrl" />
               <div class="w-32 mt-3  mx-auto font-bold text-sm">
                 {{objectItem.nombres}} {{objectItem.apellidoPaterno}} {{objectItem.apellidoMaterno}}
               </div>
@@ -65,6 +65,11 @@ export default {
         error: null
     }
   },
+  computed:{
+    imgUrl(){
+      return this.objectItem.carPhotoUrl || this.objectItem.photoUrl
+    }
+  },
   methods: {
     codeAndNameAndDesc (item) {
         return `${item.idTarjeta} - ${item.nombres} ${item.apellidoPaterno} ${item.apellidoMaterno} `
@@ -78,9 +83,17 @@ export default {
             _cliente: this.objectItem._id
           }
           await recargar(datos)
+          this.$notify({
+            group:'alert',
+            title:'Tarjeta recargada',
+            text: `Usuario: ${this.objectItem.nombres},${this.montoRecarga} Bs `,
+            type:'success',
+            position: 'top left'
+          })
           this.montoRecarga = null
           this.objectItem = {}
           this.isLoading = false
+          
 
         } catch (error) {
           console.error(error)

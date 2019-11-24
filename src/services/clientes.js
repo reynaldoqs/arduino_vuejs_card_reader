@@ -14,3 +14,7 @@ export const updateCliente = (idClient,data) => {
     const getClients = base(`clientes/${idClient}`)
     return getClients.update(data)
 }
+export const getCliente = (idClient) => {
+    const getClients = base(`clientes/${idClient}`)
+    return getClients.get()
+}

@@ -10,8 +10,8 @@
                         <p class="font-bold text-xs text-gray-500  text-left leading-normal">{{transaccion.nombres}} {{transaccion.apellidoPaterno}} {{transaccion.apellidoMaterno?transaccion.apellidoMaterno.charAt(0):''}}.</p>
                         <div class="flex justify-between">
                             <p class="text-xs text-left text-gray-600 leading-none">{{transaccion.ci}}</p>
-                            <p v-if="transaccion.type === 'validacion'" class="border-green-500 border px-1 custom-p rounded text-xs text-left text-green-600 leading-none">{{transaccion.type}}</p>
-                            <p v-if="transaccion.type === 'validado'" class="border-green-200 border px-1 custom-p rounded text-xs text-left text-green-300 leading-none">{{transaccion.type}}</p>
+                            <p v-if="transaccion.type === 'validacion'" class="border-green-200 border px-1 custom-p rounded text-xs text-left text-green-200 leading-none">{{transaccion.type}}</p>
+                            <p v-if="transaccion.type === 'validado'" class="border-green-500 border px-1 custom-p rounded text-xs text-left text-green-600 leading-none">{{transaccion.type}}</p>
                             <p v-if="transaccion.type === 'descuento'" class="border-orange-500 border px-1 custom-p rounded text-xs text-left text-orange-600 leading-none">{{transaccion.type}}</p>
                             <p v-if="transaccion.type === 'actualizacion'" class="border-blue-500 border px-1 custom-p rounded text-xs text-left text-blue-600 leading-none">{{transaccion.type}}</p>
                         </div>

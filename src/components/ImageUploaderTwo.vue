@@ -1,11 +1,12 @@
 <template>
     <div class="w-full h-full bg-gray-500 relative loader-container">
+
         <img class="w-full h-full object-cover select-none" draggable="false" :src="currentImgUrl" alt="">
         <div v-if="editable" class="left-0 top-0 opt absolute w-full h-full flex-column items-center justify-center">
             <div class="h-full w-full flex items-center justify-center">
                 <div class="text-center">
-                    <input type="file" name="file" id="file" class="inputfile" @change="onFileSelected"/>
-                    <label for="file" class="border border-gray-900 px-2 font-bold text-xs text-center">Subir<font-awesome-icon :icon="['fa', 'image']" class="text-md ml-2 text-center"/></label>
+                    <input type="file" name="fileCar" id="fileCar" class="inputfile" @change="onCarFileSelected"/>
+                    <label for="fileCar" class="border border-gray-900 px-2 font-bold text-xs text-center">Subir<font-awesome-icon :icon="['fa', 'image']" class="text-md ml-2 text-center"/></label>
                     <!--<button @click="upLoadFirebase" class="border border-gray-900 px-2 font-bold text-xs text-center" >Subir<font-awesome-icon :icon="['fa', 'upload']" class="text-md ml-2 text-center"/></button>-->
                 </div>
             </div>
@@ -19,7 +20,7 @@
 import firebase from 'firebase/app'
 import 'firebase/storage'
 export default {
-    name:'image-uploader',
+    name:'image-uploader-car',
     data () {
         return {
             completedPercent: 0,
@@ -39,6 +40,7 @@ export default {
         title: String,
         editable: Boolean
     },
+
     computed:{
         currentImgUrl(){
             if(this.pictureUrl){
@@ -48,7 +50,7 @@ export default {
         }
     },
     methods:{
-        onFileSelected(event) {
+        onCarFileSelected(event) {
             this.currentFile = event.target.files[0]
             this.upLoadFirebase()
         },
@@ -64,7 +66,7 @@ export default {
 
                 task.snapshot.ref.getDownloadURL().then((url) => {
                     context.pictureUrl = url
-                    context.$emit('onImageUploaded', url)
+                    context.$emit('onCarImageUploaded', url)
                 })
             })
         }

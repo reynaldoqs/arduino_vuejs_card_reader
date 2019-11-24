@@ -12,6 +12,7 @@
      :overlay="true"
      label="Cargando...">
     </loading>
+    <notifications group="alert" position="bottom right" />
        <notifications group="foo" position="bottom right" :duration="15000">
            <template slot="body" slot-scope="props">
             <div @click="() => {$store.dispatch('selectTransaction', props.item.data)}"

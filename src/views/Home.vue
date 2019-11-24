@@ -72,6 +72,42 @@ export default {
                   path: '/transito-clientes'
               }
            ]
+      case 'cajero':
+         return [
+              {
+                  title: 'Cajero Recargas',
+                  path: '/cajero-recargas'
+              }
+           ]
+      case 'odeco':
+         return [
+              {
+                  title: 'Odeco Registro',
+                  path: '/odeco-registro'
+              },
+              {
+                title: 'Odeco objetos perdidos',
+                path: '/odeco-objetos'
+              }
+           ]
+      case 'transito-validador':
+         return [
+              {
+                  title: 'Transito Validacion',
+                  path: '/transito-validacion'
+              }
+           ]
+      case 'transito-administrador':
+         return [
+              {
+                  title: 'Transito cliente',
+                  path: '/transito-registro-cliente'
+              },
+              {
+                  title: 'Transito clientes lista',
+                  path: '/transito-clientes'
+              }
+           ]
        default:
            return [
               {

@@ -17,6 +17,7 @@ const AdminRecargasList = () => import('@/views/AdminRecargasList')
 const TransitoValidacion = () => import('@/views/TransitoValidacion')
 const TransitoRegistroCliente = () => import('@/views/TransitoRegistroCliente')
 const TransitoClientes = () => import('@/views/TransitoClientes')
+const TransitoEditarCliente = () => import('@/views/TransitoEditarCliente')
 
 import AuthGuard from './routeGuard'
 
@@ -47,6 +48,11 @@ const router = new Router({
       path: '/transito-registro-cliente',
       name: 'transito-registro-cliente',
       component: TransitoRegistroCliente
+    },
+    {
+      path: '/transito-editar-cliente/:id',
+      name: 'transito-editar-cliente',
+      component: TransitoEditarCliente
     },
     {
       path: '/transito-clientes',

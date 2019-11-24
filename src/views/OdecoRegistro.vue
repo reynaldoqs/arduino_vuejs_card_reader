@@ -55,6 +55,13 @@ export default {
                     detalles: this.detalles
                 }
                 await registrarObjeto(datos)
+                     this.$notify({
+                        group:'alert',
+                        title:'Objeto registrado',
+                        text: `Objeto: ${this.objeto}`,
+                        type:'success',
+                        position: 'top left'
+                    })
                 this.imgUrl = null
                 this.objeto = null
                 this.detalles = null

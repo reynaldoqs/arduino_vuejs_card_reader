@@ -40,7 +40,7 @@
                                     <button @click="remove(doc.email)" class="text-red-400 cursor-pointer py-1 px-2">
                                         <font-awesome-icon  icon="trash"/> 
                                     </button>   
-                                    <button @click="remove(doc.email)" class="text-orange-400 cursor-pointer py-1 px-2">
+                                    <button @click="edit(doc._id)" class="text-orange-400 cursor-pointer py-1 px-2">
                                         <font-awesome-icon  icon="user-edit"/> 
                                     </button>                             
                                 </td>
@@ -125,6 +125,9 @@ export default {
                 this.error = error
                 this.isLoading = false
             }
+        },
+        edit(id){
+            this.$router.push({name:'transito-editar-cliente',params:{id}})
         }
     },
     created() {

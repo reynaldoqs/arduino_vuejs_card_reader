@@ -5,6 +5,7 @@
         v-on:onAcept="createUser()"
         @onAddRelevo="onAddRelevo"
         @onImageUploaded="onImageUploaded"
+        @onCarImageUploaded="onCarImageUploaded"
         :objValue="newObj"
         :editable="true"
         :isValidate="false"></transito-reg-card>
@@ -48,6 +49,9 @@ export default {
         },
         onImageUploaded(url){
             this.photoUrl = url
+        },
+        onCarImageUploaded(url){
+            this.carPhotoUrl = url
         },
         onAddRelevo(relevo){
             if(!this.newObj.relevos){

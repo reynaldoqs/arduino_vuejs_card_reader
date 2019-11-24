@@ -19,7 +19,7 @@
                             </label>
                         </div>
                         <div class="md:w-2/3">
-                            <input :readonly="!editable" v-model="objValue.idTarjeta" class="w-form-input bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="idTarjeta" type="text">
+                            <input :readonly="!editable" v-model.number="objValue.idTarjeta" class="w-form-input bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="idTarjeta" type="text">
                         </div>
                     </div>
 
@@ -59,8 +59,8 @@
 
             <div class="w-1/3 flex items-center justify-center pb-2">
                 <div class="h-40 w-40">
-                   <img class="h-40 w-40 object-cover select-none" draggable="false" :src="carUrl" alt="automovil">
-                   <!-- <image-uploader key="carPictgure" title="car" :oldPictureUrl="objValue.carPhotoUrl" @onImageUploaded="onCarImageUploaded"></image-uploader>-->
+                   <!--<img class="h-40 w-40 object-cover select-none" draggable="false" :src="carUrl" alt="automovil">-->
+                    <image-uploader-two  :editable="editable"  key="carPictgure" title="car" :oldPictureUrl="objValue.carPhotoUrl" @onCarImageUploaded="onCarImageUploaded"></image-uploader-two>
                 </div>
             </div>
         </div>
@@ -238,6 +238,7 @@
 <script>
 import WarningIcon from '@/components/WarningIcon'
 import ImageUploader from '@/components/ImageUploader'
+import ImageUploaderTwo from '@/components/ImageUploaderTwo'
 import MyCheckBox from '@/components/MyCheckBox'
 export default {
     data(){
@@ -300,7 +301,7 @@ export default {
             this.$emit('onImageUploaded',url)
         },
         onCarImageUploaded(url) {
-            this.$emit('onCardImageUploaded',url)
+            this.$emit('onCarImageUploaded',url)
         },
         onAddRelevo(){
              if(!this.objValue.relevos){
@@ -321,7 +322,8 @@ export default {
     components:{
         WarningIcon,
         ImageUploader,
-        MyCheckBox
+        MyCheckBox,
+        ImageUploaderTwo
     }
 }
 </script>
