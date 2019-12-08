@@ -1,8 +1,8 @@
 <template>
   <div class="router-view-height bg-gray-900 w-full p-1 flex items-center justify-center">
-    <div class="text-md flex flex-col">
-      <router-link v-for="(nav, index) in navElements" :key="index" tag="a" :to="nav.path"
-          class="border rounded-full border-gray-300 px-5 py-4 m-2 text-gray-300 hover:text-gray-900 hover:border-gray-900 hover:bg-gray-700">{{nav.title}}</router-link>
+    <div class="wrapper text-md container mx-auto">
+        <router-link v-for="(nav, index) in navElements" :key="index" tag="a" :to="nav.path"
+          class="box border rounded-full border-gray-300 px-5 py-4 m-2 text-gray-300 hover:text-gray-900 hover:border-gray-900 hover:bg-gray-700">{{nav.title}}</router-link>
     </div>
   </div>
 </template>
@@ -95,7 +95,11 @@ export default {
               {
                   title: 'Transito Validacion',
                   path: '/transito-validacion'
-              }
+              },
+              {
+                  title: 'Admin Validaciones lista',
+                  path: '/admin-validaciones-list'
+              },
            ]
       case 'transito-administrador':
          return [
@@ -106,7 +110,11 @@ export default {
               {
                   title: 'Transito clientes lista',
                   path: '/transito-clientes'
-              }
+              },
+              {
+                  title: 'Admin Validaciones lista',
+                  path: '/admin-validaciones-list'
+              },
            ]
        default:
            return [
@@ -120,3 +128,14 @@ export default {
     },
 }
 </script>
+<style scoped>
+  .wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+  }
+  .box{
+    padding: 20px;
+    display: block;
+  }
+</style>

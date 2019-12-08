@@ -6,10 +6,11 @@
                         <thead>
                             <tr class="border-b border-grey-light">
                                 <th data-priority="1">Cliente</th>
-                                <th data-priority="2">Monto de recarga</th>
-                                <th data-priority="3">Credito previo</th>
-                                <th data-priority="4">Fecha de recarga</th>
-                                <th data-priority="5">Cajero</th>
+                                <th data-priority="2">Monto de Recarga</th>
+                                <th data-priority="3">Credito Total</th>
+                                <th data-priority="4">Credito Previo</th>  
+                                <th data-priority="5">Fecha de Recarga</th>
+                                <th data-priority="6">Cajero</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -26,6 +27,7 @@
                                     </p>
                                 </td>
                                 <td>{{doc.montoRecarga}} Bs</td>
+                                <td>{{doc._cliente.credito}} Bs</td>
                                 <td>{{doc.creditoPrevio}} Bs</td>
                                 <td>{{doc.fechaRecarga | fecha}}</td>
                                 <td>
