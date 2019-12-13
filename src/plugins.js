@@ -65,6 +65,13 @@ Vue.filter('fecha', (value) => {
     const year = splited[0]
     const month = splited[1]
     const day = splited[2].split('T')[0]
+    const hr = splited[2].split('T')[1]
+    const splitedHr = hr.split(':')
+    const hora = parseInt(splitedHr[0])-4
+    const formatedHora = hora < 0? hora +24:hora
+    const finalHoral = formatedHora < 10? '0'+formatedHora:formatedHora
+  
+    const minutos = splitedHr[1]
     //const hrs = splited[2].split('T')[1].substring(0,5)
-    return `${day}/${month}/${year}`
+    return `${day}/${month}/${year}, hora: ${finalHoral}:${minutos}`
 })

@@ -6,10 +6,11 @@
                         <thead>
                             <tr class="border-b border-grey-light">
                                 <th data-priority="1">Cliente</th>
-                                <th data-priority="2">Observacion</th>
-                                <th data-priority="3">Detalles</th>
-                                <th data-priority="4">Fecha de validacion</th>
-                                <th data-priority="5">Validador</th>
+                                <th data-priority="2">Id Tarjeta</th>
+                                <th data-priority="3">Observacion</th>
+                                <th data-priority="4">Detalles</th>
+                                <th data-priority="5">Fecha de validacion</th>
+                                <th data-priority="6">Validador</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -23,6 +24,14 @@
                                     </p>
                                     <p v-if="doc._cliente">
                                         {{doc._cliente.ci}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p v-if="!doc._cliente">
+                                        cliente no encontrado
+                                    </p>
+                                    <p v-if="doc._cliente">
+                                        {{doc._cliente.idTarjeta}}
                                     </p>
                                 </td>
                                 <td>{{doc.observaciones}}</td>

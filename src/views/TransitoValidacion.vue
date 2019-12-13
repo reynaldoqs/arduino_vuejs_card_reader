@@ -87,6 +87,7 @@ export default {
             console.log(' no nada')
         },
         async validar(){
+            console.log("estamos validando aquiiii")
             try {
                 this.isLoading = true
                 const {_id, observaciones, botiquin,

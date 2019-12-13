@@ -27,7 +27,15 @@
                                     </p>
                                 </td>
                                 <td>{{doc.montoRecarga}} Bs</td>
-                                <td>{{doc._cliente.credito}} Bs</td>
+                                
+                                <td>
+                                    <p v-if="!doc._cliente">
+                                        cliente no encontrado
+                                    </p>
+                                    <p v-if="doc._cliente">
+                                        {{doc._cliente.credito}} Bs
+                                    </p>
+                                </td>
                                 <td>{{doc.creditoPrevio}} Bs</td>
                                 <td>{{doc.fechaRecarga | fecha}}</td>
                                 <td>

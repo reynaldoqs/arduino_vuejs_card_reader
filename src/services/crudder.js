@@ -2,6 +2,7 @@ import axios from 'axios'
 export const crudder = domain => resource => {
     const url = `${domain}/${resource}`
     const user =  sessionStorage.getItem('user')
+    console.log(JSON.parse(user))
     return ({
         create: (x) => axios({
                 method: 'post',
