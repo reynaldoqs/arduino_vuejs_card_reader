@@ -18,10 +18,10 @@
             <button @click="onSigin" class="w-full mb-8 p-1 border rounded-full text-purple-600 border-purple-600 hover:border-transparent hover:text-white hover:bg-purple-600" type="button">
                 Ingresar
             </button>
-            <span class="text-xs text-gray-500 text-left">¿No tienes una cuenta? </span>
-            <router-link tag="a" to="/signup" class="ml-2 font-bold text-xs text-purple-600 text-left hover:text-purple-800">
+            <span class="text-xs text-gray-500 text-left">Ingreso solo para personas autorizadas</span>
+             <!--<router-link tag="a" to="/signup" class="ml-2 font-bold text-xs text-purple-600 text-left hover:text-purple-800">
                 Registrarse
-            </router-link>
+            </router-link>-->
         </div>
     </form>
     </div>

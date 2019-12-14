@@ -13,8 +13,9 @@ import Vue from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faExclamation, faTimes, faImage, faUpload, faFirstAid, faFireExtinguisher, faTools, faCog, faExclamationTriangle, faAd, faTrash, faUserEdit} from '@fortawesome/free-solid-svg-icons'
+import { faList ,faUsers,faCheckSquare,faMoneyBill, faExclamation, faTimes, faImage, faUpload, faFirstAid, faFireExtinguisher, faTools, faCog, faExclamationTriangle, faAd, faTrash, faUserEdit} from '@fortawesome/free-solid-svg-icons'
 import { faGoogle,faFacebookF} from '@fortawesome/free-brands-svg-icons'
+
 
 library.add(faExclamation)
 library.add(faTimes)
@@ -29,7 +30,10 @@ library.add(faExclamationTriangle)
 library.add(faAd)
 library.add(faTrash)
 library.add(faUserEdit)
-
+library.add(faUsers)
+library.add(faMoneyBill)
+library.add(faCheckSquare)
+library.add(faList)
 library.add(faGoogle)
 library.add(faFacebookF)
 Vue.component('font-awesome-icon', FontAwesomeIcon)

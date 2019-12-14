@@ -19,6 +19,8 @@ const TransitoRegistroCliente = () => import('@/views/TransitoRegistroCliente')
 const TransitoClientes = () => import('@/views/TransitoClientes')
 const TransitoEditarCliente = () => import('@/views/TransitoEditarCliente')
 
+const Descuentos = () => import('@/views/DesCredito')
+
 import AuthGuard from './routeGuard'
 
 Vue.use(Router)
@@ -93,6 +95,11 @@ const router = new Router({
       path: '/odeco-objetos',
       name: 'odeco-objetos',
       component: OdecoObjetosPerdidos
+    },
+    {
+      path: '/descuentos',
+      name: 'descuentos',
+      component: Descuentos
     }
   ],
   mode: 'history',

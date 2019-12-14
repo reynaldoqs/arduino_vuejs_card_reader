@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app" class="bg-theme-scifi">
+    <div class="bg-svg-scifi z-0 absolute left-0 left-0 w-full h-full">
     <nav-bar></nav-bar>
     <transition
         name="fade"
@@ -44,6 +45,7 @@
             </div>
         </template>
        </notifications>
+       </div>
   </div>
 </template>
 <script>
@@ -89,5 +91,13 @@ export default {
 .fade-leave-active {
   opacity: 0
 }
+.bg-theme-scifi {
+    background: -webkit-gradient(linear, left top, left bottom, from(#0b7285), to(#0ca678));
+    background: linear-gradient(#0b7285, #0ca678);
+}
+.bg-svg-scifi {
+  background-image: url(./assets/svg/home-scene-scifi.svg);
+  background-size: cover;
 
+}
 </style>
