@@ -105,7 +105,7 @@ export default {
                     herramientas:herramientas?herramientas:false
                 }
                 await validate(validation)
-                await updateCliente(_id,{observaciones:observaciones})
+                await updateCliente(_id,{observaciones:observaciones, estado: false})
                 this.$store.dispatch('updateTransactionType',
                 {idTarjeta:this.currentTransaction.idTarjeta,type:'validado'}
                 )

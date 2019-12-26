@@ -228,11 +228,14 @@
             </div>
         </div> 
         <div class="text-right relative">
-            <div v-if="isValidate" class="absolute left-0 top-0 p-2 leading-none text-gray-700 text-sm font-bold">
-                Crédito: {{objValue.credito}} BS
+            <div v-if="isValidate" class="absolute left-0 top-0 p-2 pt-4 leading-none text-gray-700 text-sm font-bold">
+                    Crédito: {{objValue.credito}} BS
+                <span class="ml-10 text-red-400" v-show="!objValue.estado">
+                    El usuario no tiene el registro de retorno.
+                </span>
             </div>
             <button @click="emitCancel" class="inline-block text-sm px-8 py-2 mr-4 leading-none border rounded-full text-white bg-purple-600 hover:border-transparent hover:text-purple-600 hover:border-purple-600 hover:bg-white mt-4 lg:mt-0">{{cancelText}}</button>
-            <button @click="emitAcept" class="inline-block text-sm px-8 py-2 leading-none border rounded-full text-purple-600 border-purple-600 hover:border-transparent hover:text-white hover:bg-purple-600 mt-4 lg:mt-0">{{nextText}}</button>
+            <button @click="emitAcept" v-show="!isValidate || objValue.estado"  class="inline-block text-sm px-8 py-2 leading-none border rounded-full text-purple-600 border-purple-600 hover:border-transparent hover:text-white hover:bg-purple-600 mt-4 lg:mt-0">{{nextText}}</button>
         </div>
         </div>
     </div>
