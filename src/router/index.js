@@ -21,6 +21,8 @@ const TransitoEditarCliente = () => import('@/views/TransitoEditarCliente')
 
 const Descuentos = () => import('@/views/DesCredito')
 
+const Reportes = () => import('@/views/Reportes')
+
 import AuthGuard from './routeGuard'
 
 Vue.use(Router)
@@ -100,6 +102,11 @@ const router = new Router({
       path: '/descuentos',
       name: 'descuentos',
       component: Descuentos
+    },
+    {
+      path: '/reportes',
+      name: 'reportes',
+      component: Reportes
     }
   ],
   mode: 'history',

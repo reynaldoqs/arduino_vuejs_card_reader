@@ -87,6 +87,11 @@ export default {
                             path: '/descuentos',
                             icon: 'money-bill'
                         },
+                        {
+                            title: 'Reportes',
+                            path: '/reportes',
+                            icon: 'list'
+                        }
 
                     ]
                 case 'cajero':
@@ -98,6 +103,11 @@ export default {
                         {
                             title: 'Recargas Lista',
                             path: '/admin-recargas-list',
+                            icon: 'list'
+                        },
+                        {
+                            title: 'Reportes',
+                            path: '/reportes',
                             icon: 'list'
                         },
                     ]
